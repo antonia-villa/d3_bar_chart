@@ -1,9 +1,30 @@
+body{
+  text-align: center;
+  background-color: #616566;
+  
+}
+
  text {
-    font-family: sans-serif;
+    font-family: Calibri;
+    font-size:14px;
   }
 
+
+#visual {
+  background-color: #e8e8e8;
+  padding:20px;
+  height: 80vh;
+  position: absolute;
+  top:0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin:  auto;
+  margin-left: 20px;
+  margin-right: 20px;
+}
   .bar {
-    fill: cornflowerblue;
+    fill: #0a536f;
   }
 
   .bar:hover {
@@ -14,7 +35,3 @@
     display: none;
   }
 
-  #visual{
-    position: absolute;
-    left: 50%;
-  }

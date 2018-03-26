@@ -4,9 +4,10 @@ var svg = d3.select("svg")
 	y = d3.scaleLinear(),
 	data = undefined;
 
+
+
 var g = svg.append("g")
 	.attr("transform", "translate("+ margin.left+","+margin.top+")");
-
 
 g.append("g")
 	.attr("class", "axis axis--x")
@@ -14,18 +15,20 @@ g.append("g")
 g.append("g")
 	.attr("class", "axis axis--y")
 
-g.append("text")
-	.attr("tranform", "rotate(90)")
-	.attr("y", 6)
-	.attr("dy", "0.71em")
-	.attr("text-anchor", "end")
-	.text("Population")
 
 
-function draw() {
+function draw(data) {
 	var bounds = svg.node().getBoundingClientRect(),
 		width = bounds.width - margin.left - margin.right,
 		height = bounds.height - margin.top - margin.bottom;
+
+	svg.append("text")
+	.attr("x", (width/2))
+	.attr("y", 0+(margin.top))
+	.attr("text-anchor", "middle")
+	.style("font-size", "26px")
+	.style("font-color", "black")
+	.text("Population Predictions")
 
 	x.rangeRound([0,width]);
 	y.rangeRound([height,0]);
@@ -36,13 +39,12 @@ function draw() {
 
 	g.select(".axis--y")
 	 .call(d3.axisLeft(y).ticks(10))
-
+	 
 	 var bars = g.selectAll(".bar")
-	 .data(data);
-
-	 // Enter the data 
-	 bars.enter()
-	 	.append("rect")
+	 	.data(data)
+	 // Enter data
+	 bars
+	 	.enter().append("rect")
 	 	.attr("class", "bar")
 	 	.attr("x", function(d){ return x(d.continent)})
 	 	.attr("y", function(d){ return y(d.population)})
@@ -53,13 +55,20 @@ function draw() {
 	 .remove()	
 }
 
-function loadData(data){
+function loadData(){
+	d3.json("rawData.json", function(error, data){
+		data.forEach(function(d){
+			d.continent = d.continent;
+			d.population = +d.population;
+		})
+
 	x.domain(data.map(function(d){ return d.continent}))
 	y.domain([0,d3.max(data,function(d){ return d.population})]);
-
-draw();
+	
+	draw(data);
+	})
 }
 
 // Start Everything up
 window.addEventListener("resize", draw)
-loadData(jsonData);
+loadData();
