@@ -56,7 +56,7 @@ function draw(data) {
 }
 
 function loadData(){
-	d3.json("rawData.json", function(error, data){
+	d3.json("../rawData.json", function(error, data){
 		data.forEach(function(d){
 			d.continent = d.continent;
 			d.population = +d.population;
